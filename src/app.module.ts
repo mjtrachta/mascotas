@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {UsuariosModule} from './usuarios/usuarios.module';
-//import { MascotasModule } from './mascotas/mascotas.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { JwtStrategy } from './auth/jwt.strategy';
+
+
 
 
 @Module({
@@ -17,15 +19,16 @@ import { JwtStrategy } from './auth/jwt.strategy';
       username: 'sa',
       password: '123456',
       database: 'MASCOTAS',
-      entities: ["dist/usuarios/entities/usuario.entity.js"],
+      entities: ["dist/**/*.entity.js"],
 
       extra: {trustServerCertificate:true}
     }),
     UsuariosModule,
-   // MascotasModule,
     AuthModule,
 
+
   ],
+
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
 })

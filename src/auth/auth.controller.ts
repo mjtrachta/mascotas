@@ -8,7 +8,8 @@ import { RegistrerAuthDto } from './dto/registrer-auth.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService) {}
+
   //TODO registrer
   @Post('registrer')
   registrerUser(@Body() userObject: RegistrerAuthDto){
@@ -24,5 +25,3 @@ export class AuthController {
 
 
 }
-
-

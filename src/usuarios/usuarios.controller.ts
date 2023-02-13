@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UsuariosService } from './usuarios.service';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { Controller, Get, Post, Body, Put  } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CrearUsuarioDTO } from './DTO/crear-usuario.dto';
+import { UsuariosService } from './usuarios.service';
+
+
 
 @ApiBearerAuth()
 @ApiTags('usuarios')
@@ -12,47 +13,17 @@ export class UsuariosController {
 
   constructor(private readonly usuariosService: UsuariosService) {}
 
+    //@UseGuards(JwtAuthGuard)
+    @Get()
+    getUsuarios(){
+      return this.usuariosService.getUsuarios();
+    }
 
-  @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
+    @Post()
+    crearUsuario(@Body() nuevoUsuario: CrearUsuarioDTO){
+      return this.usuariosService.crearUsuario(nuevoUsuario)
+
+    }
+
   }
-
-  //@UseGuards(JwtAuthGuard)
-  @Get()
-  findAll() {
-    return this.usuariosService.findAll();
-  }
-
-
-  @Get(':id_usuario')
-  findOne(@Param('id_usuario') id: number) {
-    return this.usuariosService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuariosService.remove(+id);
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

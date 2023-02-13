@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UsuariosService } from './usuarios.service';
 import { UsuariosController } from './usuarios.controller';
+import { UsuariosService } from './usuarios.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Usuarios } from './entities/usuario.entity';
+import { Usuarios } from './usuarios.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 
 @Module({

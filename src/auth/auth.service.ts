@@ -1,10 +1,9 @@
 // biblioteca que se comunica con la base de datos para hacer operaciones
 import { Injectable,  HttpException, HttpStatus } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-import { Usuarios } from 'src/usuarios/entities/usuario.entity';
+import { Usuarios } from 'src/usuarios/usuarios.entity';
 import { Repository } from 'typeorm';
-import { CreateUsuarioDto } from  'src/usuarios/DTO/create-usuario.dto'
-import { UpdateUsuarioDto } from  'src/usuarios/DTO/update-usuario.dto'
+import { CrearUsuarioDTO, ActualizarUsuarioDTO } from  'src/usuarios/DTO/crear-usuario.dto'
 import * as argon2 from 'argon2'
 import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { RegistrerAuthDto } from './dto/registrer-auth.dto';
@@ -24,7 +23,7 @@ constructor(@InjectRepository(Usuarios) private usuariosRepository: Repository<U
 
     const nuevoUsuario = this.usuariosRepository.create(userObject)
     const hashPassword = await argon2.hash(nuevoUsuario.password);
-    nuevoUsuario.password= hashPassword;
+    nuevoUsuario.password = hashPassword;
     return this.usuariosRepository.save(nuevoUsuario)
   };
 
@@ -48,5 +47,3 @@ constructor(@InjectRepository(Usuarios) private usuariosRepository: Repository<U
 
   };
 }
-
-

@@ -14,7 +14,6 @@ async function bootstrap() {
   .setDescription('Extrados')
   .setVersion('1.0')
   .addTag('usuarios')
-  .addTag('mascotas')
   .addTag('auth')
   .build();
 const document = SwaggerModule.createDocument(app, config);

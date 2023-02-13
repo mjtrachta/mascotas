@@ -1,21 +1,29 @@
+
+// biblioteca que se comunica con la base de datos para hacer operaciones
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import { Usuarios } from './usuarios.entity';
 import { Repository } from 'typeorm';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { Usuarios } from './entities/usuario.entity';
+import { CrearUsuarioDTO, ActualizarUsuarioDTO } from  './DTO/crear-usuario.dto'
 import * as argon2 from 'argon2'
+import { UsuariosModule } from './usuarios.module';
+import { JwtService } from '@nestjs/jwt';
 
 
 @Injectable()
 export class UsuariosService {
-  email: CreateUsuarioDto;
+  mail: CrearUsuarioDTO;
 
-  constructor(@InjectRepository(Usuarios) private usuariosRepository: Repository<Usuarios>) {}
+constructor(@InjectRepository(Usuarios) private usuariosRepository: Repository<Usuarios>) {}
 
-  async create(createUsuarioDto: CreateUsuarioDto){
 
-    const nuevoUsuario = this.usuariosRepository.create(createUsuarioDto)
+getUsuarios(){
+  return this.usuariosRepository.find()
+}
+
+  async crearUsuario(usuario: CrearUsuarioDTO){
+
+    const nuevoUsuario = this.usuariosRepository.create(usuario)
     const hashPassword = await argon2.hash(nuevoUsuario.password);
     nuevoUsuario.password = hashPassword;
     return this.usuariosRepository.save(nuevoUsuario)
@@ -23,19 +31,6 @@ export class UsuariosService {
 
 
 
-  findAll() {
-    return this.usuariosRepository.find();
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
-  }
-
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
-  }
 }
+
