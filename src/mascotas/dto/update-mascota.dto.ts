@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/swagger';
+/*import { PartialType } from '@nestjs/swagger';
 import { CreateMascotaDto } from './create-mascota.dto';
 
 export class UpdateMascotaDto extends PartialType(CreateMascotaDto) {
@@ -10,3 +10,4 @@ export class UpdateMascotaDto extends PartialType(CreateMascotaDto) {
   readonly pass?: string;
   readonly id_rol?: number;
 }
+*/

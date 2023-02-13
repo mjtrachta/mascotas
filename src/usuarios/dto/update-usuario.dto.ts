@@ -9,6 +9,7 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
   readonly email?: string;
   readonly password?: string;
   readonly id_rol?: number;
+  readonly fecha_de_nacimiento?: Date;
 }
 
 

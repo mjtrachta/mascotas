@@ -2,8 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
 
 @Entity({name: 'Usuarios'})
 export class Usuarios {
-  @PrimaryGeneratedColumn()
-  //@PrimaryColumn()
+  //@PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id_usuario : number
   @Column()
   nombre: string
@@ -15,4 +15,6 @@ export class Usuarios {
   password: string
   @Column()
   id_rol: number
+  @Column()
+  fecha_de_nacimiento: Date
 }

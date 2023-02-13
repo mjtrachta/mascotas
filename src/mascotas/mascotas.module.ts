@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+/*import { Module } from '@nestjs/common';
 import { MascotasService } from './mascotas.service';
 import { MascotasController } from './mascotas.controller';
 import { Mascotas } from './entities/mascota.entity';
@@ -11,3 +11,4 @@ import { JwtStrategy } from 'src/auth/jwt.strategy';
   providers: [MascotasService, JwtStrategy]
 })
 export class MascotasModule {}
+*/

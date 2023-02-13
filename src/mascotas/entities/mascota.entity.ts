@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
+/*import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
 
 @Entity({name: 'Mascotas'})
 export class Mascotas {
@@ -20,3 +20,4 @@ export class Mascotas {
   @Column()
   propietario: number
 }
+*/

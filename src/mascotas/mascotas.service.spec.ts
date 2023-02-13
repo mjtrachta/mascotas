@@ -1,3 +1,4 @@
+/*
 import { Test, TestingModule } from '@nestjs/testing';
 import { MascotasService } from './mascotas.service';
 
@@ -16,3 +17,4 @@ describe('MascotasService', () => {
     expect(service).toBeDefined();
   });
 });
+*/

@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {UsuariosModule} from './usuarios/usuarios.module';
-import { MascotasModule } from './mascotas/mascotas.module';
+//import { MascotasModule } from './mascotas/mascotas.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtStrategy } from './auth/jwt.strategy';
 
@@ -17,16 +17,13 @@ import { JwtStrategy } from './auth/jwt.strategy';
       username: 'sa',
       password: '123456',
       database: 'MASCOTAS',
-      entities: ["dist/**/*.entity.js"],
+      entities: ["dist/usuarios/entities/usuario.entity.js"],
 
       extra: {trustServerCertificate:true}
     }),
     UsuariosModule,
-    MascotasModule,
+   // MascotasModule,
     AuthModule,
-
-
-
 
   ],
   controllers: [AppController],

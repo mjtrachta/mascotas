@@ -21,6 +21,8 @@ export class UsuariosService {
     return this.usuariosRepository.save(nuevoUsuario)
   }
 
+
+
   findAll() {
     return this.usuariosRepository.find();
   }

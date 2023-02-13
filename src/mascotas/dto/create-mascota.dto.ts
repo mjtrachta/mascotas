@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsEmail, IsNotEmpty, IsPositive, Min, Max} from "class-validator";
+/*import { IsString, IsNumber, IsEmail, IsNotEmpty, IsPositive, Min, Max} from "class-validator";
 
 
 export class CreateMascotaDto{
@@ -50,3 +50,4 @@ export class GetUsuarioDTO{
   readonly id_rol: number;
 
 }
+*/

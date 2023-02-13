@@ -8,6 +8,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('usuarios')
 @Controller('usuarios')
 export class UsuariosController {
+
+
   constructor(private readonly usuariosService: UsuariosService) {}
 
 
@@ -22,8 +24,9 @@ export class UsuariosController {
     return this.usuariosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+
+  @Get(':id_usuario')
+  findOne(@Param('id_usuario') id: number) {
     return this.usuariosService.findOne(+id);
   }
 

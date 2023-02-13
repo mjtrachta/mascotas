@@ -24,7 +24,7 @@ constructor(@InjectRepository(Usuarios) private usuariosRepository: Repository<U
 
     const nuevoUsuario = this.usuariosRepository.create(userObject)
     const hashPassword = await argon2.hash(nuevoUsuario.password);
-    nuevoUsuario.password = hashPassword;
+    nuevoUsuario.password= hashPassword;
     return this.usuariosRepository.save(nuevoUsuario)
   };
 

@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsEmail, IsNotEmpty, IsPositive, Min, Max} from "class-validator";
+import { IsString, IsNumber, IsEmail, IsNotEmpty, IsPositive, Min, Max, IsDate} from "class-validator";
 
 
 export class CreateUsuarioDto{
@@ -23,6 +23,9 @@ export class CreateUsuarioDto{
   @IsNotEmpty()
   readonly password: string;
 
+  @IsDate()
+  readonly fecha_de_nacimiento: Date;
+
   @Min(1)
   @Max(2)
   @IsNumber()
@@ -40,5 +43,6 @@ export class GetUsuarioDTO{
   readonly mail: string;
   readonly pass: string;
   readonly id_rol: number;
+  readonly fecha_de_nacimiento: Date;
 
 }
