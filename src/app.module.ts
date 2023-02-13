@@ -6,6 +6,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { MascotasModule} from './mascotas/mascotas.module';
 
 
 
@@ -25,6 +26,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
     }),
     UsuariosModule,
     AuthModule,
+    MascotasModule
 
 
   ],
