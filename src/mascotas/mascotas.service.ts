@@ -18,6 +18,10 @@ export class MascotasService {
 constructor(@InjectRepository(Mascotas) private mascotasRepository: Repository<Mascotas>) {}
 
 
+async getMascotasByUser(propietario: number) {
+  return this.mascotasRepository.find({ where: { propietario } });
+}
+
 getMascota(){
   return this.mascotasRepository.find()
 }

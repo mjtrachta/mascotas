@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
 
 
 
-@Entity({name: 'Usuarios'})
+@Entity({name: 'Usuarios2'})
 export class Usuarios {
   //@PrimaryGeneratedColumn()
   @PrimaryColumn()
