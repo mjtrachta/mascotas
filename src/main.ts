@@ -15,7 +15,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
   .addBearerAuth()
-  .setTitle('Mi documentacion API')
+  .setTitle('Mi documentacion API Mascotas')
   .setDescription('Extrados')
   .setVersion('1.0')
   .addTag('usuarios')
