@@ -8,8 +8,8 @@ import { CreateMascotaDto, ActualizarMascotaDto } from  './dto/create-mascota.dt
 import * as argon2 from 'argon2'
 import { MascotasModule } from './mascotas.module';
 import { JwtService } from '@nestjs/jwt';
-//import { PaginationQueryDto } from './dto/pagination.dto';
-//import { CreateMascotaDto } from './dto/create-mascota.dto';
+import { PaginationQueryDto } from './dto/pagination.dto';
+
 
 
 @Injectable()
@@ -25,19 +25,21 @@ async getMascotasByUser(propietario: number) {
 
 
 
-//getMascota({limit, offset}: PaginationQueryDto){
-//  return this.mascotasRepository.find({skip: offset, take: limit})
-//}
+getMascota({page, limit}: PaginationQueryDto){
+  const offset = (page-1)* limit
+  return this.mascotasRepository.find({skip: offset, take: limit})
+}
 
-  async crearMascota(mascota: CreateMascotaDto){
+getMascota2(){
+  return this.mascotasRepository.find()
+}
 
-    const nuevaMascota = this.mascotasRepository.create(mascota)
+async crearMascota(mascota: CreateMascotaDto){
 
-    return this.mascotasRepository.save(nuevaMascota)
-  }
+  const nuevaMascota = this.mascotasRepository.create(mascota)
 
-
-
+  return this.mascotasRepository.save(nuevaMascota)
+}
 
 }
 

@@ -3,7 +3,7 @@ import { Controller, Get, Post, Body, Put, Param, UseGuards, Req, Query  } from 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateMascotaDto } from './dto/create-mascota.dto';
-//import { PaginationQueryDto } from './dto/pagination.dto';
+import { PaginationQueryDto } from './dto/pagination.dto';
 import { MascotasService } from './mascotas.service';
 
 
@@ -23,14 +23,16 @@ export class MascotasController {
 
   }
 
-    //@UseGuards(JwtAuthGuard)
-   // @Get()
-    //@Query('limit') limit = 10
-    //@Query('offset') offset = 10
-   // @Query()
-   // getMascota(@Query() pagination: PaginationQueryDto){
-   //   return this.mascotasService.getMascota(pagination);
-   // }
+    @UseGuards(JwtAuthGuard)
+    @Get()
+   getMascota(@Query() pagination: PaginationQueryDto){
+      return this.mascotasService.getMascota(pagination);
+    }
+
+    @Get()
+    getMascota2(){
+      return this.mascotasService.getMascota2();
+    }
 
     @Post()
     crearMascota(@Body() nuevaMascota: CreateMascotaDto){
