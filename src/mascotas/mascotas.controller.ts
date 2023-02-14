@@ -14,10 +14,6 @@ export class MascotasController {
 
   constructor(private readonly mascotasService: MascotasService) {}
 
-
-
-
-
   @UseGuards(JwtAuthGuard)
   @Get('usuario/:idUsuario')
   async getMascotasByUser(@Param('idUsuario') idUsuario: number, @Req() req) {
