@@ -6,7 +6,12 @@ import * as cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+
+  app.useGlobalPipes(new ValidationPipe({
+    transformOptions: {
+      enableImplicitConversion: true
+    }
+  }));
 
   const config = new DocumentBuilder()
   .addBearerAuth()
@@ -15,6 +20,7 @@ async function bootstrap() {
   .setVersion('1.0')
   .addTag('usuarios')
   .addTag('auth')
+  .addTag('mascotas')
   .build();
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('documentacion', app, document);

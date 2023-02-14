@@ -23,24 +23,10 @@ export class JwtStrategy extends PassportStrategy(JwtStrategyFromPassport) {
     console.log(idUsuario)
 
     if (idUsuario !== payload.id_usuario) {
-      throw new HttpException('ehh que estas queriendo ver'+{idUsuario}, HttpStatus.FORBIDDEN);
+      throw new HttpException('ehh que estas queriendo ver', HttpStatus.FORBIDDEN);
     }
     return { id_usuario: payload.id_usuario };
   }
 
 }
 
-
-/*
-  async validate(payload: any, req: Request) {
-
-    const urlId = req.params.idUsuario;
-    if (!(payload.id_usuario == urlId)){
-      throw new HttpException('ehh que estas queriendo ver'+{urlId}, HttpStatus.FORBIDDEN);
-    }
-    return { id_usuario: payload.id_usuario, id_rol: payload.id_rol };
-  }
-
-
-
-  */

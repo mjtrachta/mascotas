@@ -8,6 +8,7 @@ import { CreateMascotaDto, ActualizarMascotaDto } from  './dto/create-mascota.dt
 import * as argon2 from 'argon2'
 import { MascotasModule } from './mascotas.module';
 import { JwtService } from '@nestjs/jwt';
+//import { PaginationQueryDto } from './dto/pagination.dto';
 //import { CreateMascotaDto } from './dto/create-mascota.dto';
 
 
@@ -22,9 +23,11 @@ async getMascotasByUser(propietario: number) {
   return this.mascotasRepository.find({ where: { propietario } });
 }
 
-getMascota(){
-  return this.mascotasRepository.find()
-}
+
+
+//getMascota({limit, offset}: PaginationQueryDto){
+//  return this.mascotasRepository.find({skip: offset, take: limit})
+//}
 
   async crearMascota(mascota: CreateMascotaDto){
 
