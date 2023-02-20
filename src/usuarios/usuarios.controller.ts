@@ -19,6 +19,11 @@ export class UsuariosController {
       return this.usuariosService.getUsuarios();
     }
 
+    @Get()
+    getPsicologos(){
+      return this.usuariosService.getUsuarios();
+    }
+
     @Post()
     crearUsuario(@Body() nuevoUsuario: CrearUsuarioDTO){
       return this.usuariosService.crearUsuario(nuevoUsuario)

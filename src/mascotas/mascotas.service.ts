@@ -1,16 +1,10 @@
-
 // biblioteca que se comunica con la base de datos para hacer operaciones
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Mascotas } from './mascota.entity';
 import { Repository } from 'typeorm';
 import { CreateMascotaDto, ActualizarMascotaDto } from  './dto/create-mascota.dto'
-import * as argon2 from 'argon2'
-import { MascotasModule } from './mascotas.module';
-import { JwtService } from '@nestjs/jwt';
 import { PaginationQueryDto } from './dto/pagination.dto';
-
-
 
 @Injectable()
 export class MascotasService {
@@ -18,12 +12,9 @@ export class MascotasService {
 
 constructor(@InjectRepository(Mascotas) private mascotasRepository: Repository<Mascotas>) {}
 
-
 async getMascotasByUser(propietario: number) {
   return this.mascotasRepository.find({ where: { propietario } });
 }
-
-
 
 getMascota({page, limit}: PaginationQueryDto){
   const offset = (page-1)* limit
@@ -40,6 +31,5 @@ async crearMascota(mascota: CreateMascotaDto){
 
   return this.mascotasRepository.save(nuevaMascota)
 }
-
 }
 

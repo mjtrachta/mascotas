@@ -17,4 +17,8 @@ export class Usuarios {
   password: string
   @Column()
   id_rol: number
+  @Column()
+  dni : number;
+  @Column()
+  numero_telefono: string;
 }

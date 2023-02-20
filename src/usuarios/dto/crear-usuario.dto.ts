@@ -29,6 +29,13 @@ export class CrearUsuarioDTO{
   @IsNotEmpty()
   readonly id_rol: number;
 
+  @IsPositive()
+  @IsNumber()
+  readonly dni : number;
+
+  @IsString()
+  readonly numero_telefono: string;
+
 }
 
 export class ActualizarUsuarioDTO{
@@ -39,6 +46,8 @@ export class ActualizarUsuarioDTO{
   readonly email?: string;
   readonly password?: string;
   readonly id_rol?: number;
+  readonly dni?: number;
+  readonly numero_telefono?: string;
 
 }
 
@@ -50,5 +59,7 @@ export class GetUsuarioDTO{
   readonly email: string;
   readonly password: string;
   readonly id_rol: number;
+  readonly dni : number;
+  readonly numero_telefono: string;
 
 }
