@@ -19,9 +19,9 @@ export class UsuariosController {
       return this.usuariosService.getUsuarios();
     }
 
-    @Get()
+    @Get('psicologos')
     getPsicologos(){
-      return this.usuariosService.getUsuarios();
+      return this.usuariosService.getPsicologos();
     }
 
     @Post()

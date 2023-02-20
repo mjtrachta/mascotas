@@ -1,5 +1,5 @@
 import { IsString, IsNumber, IsEmail, IsNotEmpty, IsPositive, Min, Max} from "class-validator";
-import { isNotEmpty } from "class-validator/types/decorator/decorators";
+import { isNotEmpty, isString } from "class-validator/types/decorator/decorators";
 
 export class CrearUsuarioDTO{
 
@@ -15,16 +15,14 @@ export class CrearUsuarioDTO{
   @IsNotEmpty()
   readonly apellido: string;
 
-  @IsEmail()
-  @IsNotEmpty()
+
   readonly mail: string;
 
-  @IsString()
-  @IsNotEmpty()
+
   readonly pass: string;
 
   @Min(1)
-  @Max(2)
+  @Max(3)
   @IsNumber()
   @IsNotEmpty()
   readonly id_rol: number;

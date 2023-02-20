@@ -21,16 +21,27 @@ getUsuarios(){
   return this.usuariosRepository.find()
 }
 
-  async crearUsuario(usuario: CrearUsuarioDTO){
+getPsicologos(){
+  return this.usuariosRepository.find({
+    select: {
+      id_usuario: true,
+      nombre: true,
+    },
+    where: {
+      id_rol: 3,
 
+  },
+  })
+}
+
+
+async crearUsuario(usuario: CrearUsuarioDTO){
     const nuevoUsuario = this.usuariosRepository.create(usuario)
     const hashPassword = await argon2.hash(nuevoUsuario.password);
     nuevoUsuario.password = hashPassword;
     return this.usuariosRepository.save(nuevoUsuario)
   }
-
-
-
-
 }
+
+
 
