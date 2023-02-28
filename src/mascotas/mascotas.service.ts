@@ -16,6 +16,10 @@ async getMascotasByUser(propietario: number) {
   return this.mascotasRepository.find({ where: { propietario } });
 }
 
+async getMascotasById(id_mascota: number) {
+  return this.mascotasRepository.find({ where: { id_mascota } });
+}
+
 getMascota({page, limit}: PaginationQueryDto){
   const offset = (page-1)* limit
   return this.mascotasRepository.find({skip: offset, take: limit})

@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { MascotasModule} from './mascotas/mascotas.module';
+import { TurnosModule } from './turnos/turnos.module';
 
 
 
@@ -26,7 +27,8 @@ import { MascotasModule} from './mascotas/mascotas.module';
     }),
     UsuariosModule,
     AuthModule,
-    MascotasModule
+    MascotasModule,
+    TurnosModule
 
 
   ],

@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Put  } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, UseGuards, Param, Req  } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CrearUsuarioDTO } from './DTO/crear-usuario.dto';
 import { UsuariosService } from './usuarios.service';
 
@@ -23,6 +24,12 @@ export class UsuariosController {
     getPsicologos(){
       return this.usuariosService.getPsicologos();
     }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('usuario/:idUsuario')
+  async getMascotasByUser(@Param('idUsuario') idUsuario: number, @Req() req) {
+  return this.usuariosService.getTurnosByUser(idUsuario);
+  }
 
     @Post()
     crearUsuario(@Body() nuevoUsuario: CrearUsuarioDTO){

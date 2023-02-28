@@ -17,6 +17,12 @@ export class MascotasController {
   return this.mascotasService.getMascotasByUser(idUsuario);
   }
 
+
+  @Get(':idMascota')
+  async getMascotasById(@Param('idMascota') idMascota: number, @Req() req) {
+  return this.mascotasService.getMascotasById(idMascota);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get()
   getMascota(@Query() pagination: PaginationQueryDto){
