@@ -17,11 +17,7 @@ export class UsuariosService {
 constructor(@InjectRepository(Usuarios) private usuariosRepository: Repository<Usuarios>) {}
 
 
-async getTurnosByUser(id_usuario: number) {
-  return this.usuariosRepository.find({
 
-  });
-}
 
 
 getUsuarios(){
@@ -42,12 +38,10 @@ getPsicologos(){
   },
   })
 
-  // endpoints 2 VerTurnosDisponibles:
-  // endpoints 3 Registrar un turnos:
-  // endpoints 4 Ver mis turnos:
-  // endpoints 5 Cancelar una cita:
-  // endpoints 6 Ver informacion de una mascota:
-  // endpoints 7 Ver mis citas(acceso psicologo, admin):
+
+
+ 
+
   // endpoints 8 Terminar cita (acceso psicologo, admin):
 
 

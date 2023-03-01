@@ -20,16 +20,13 @@ export class UsuariosController {
       return this.usuariosService.getUsuarios();
     }
 
+    // endpoints 1 VerPiscologos:(acceso a admins y clientes)
     @Get('psicologos')
     getPsicologos(){
       return this.usuariosService.getPsicologos();
     }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('usuario/:idUsuario')
-  async getMascotasByUser(@Param('idUsuario') idUsuario: number, @Req() req) {
-  return this.usuariosService.getTurnosByUser(idUsuario);
-  }
+
 
     @Post()
     crearUsuario(@Body() nuevoUsuario: CrearUsuarioDTO){

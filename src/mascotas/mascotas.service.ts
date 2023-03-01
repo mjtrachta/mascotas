@@ -12,13 +12,16 @@ export class MascotasService {
 
 constructor(@InjectRepository(Mascotas) private mascotasRepository: Repository<Mascotas>) {}
 
+// endpoints 6 Ver informacion de una mascota:
+async getMascotasById(id_mascota: number) {
+  return this.mascotasRepository.find({ where: { id_mascota } });
+}
+
 async getMascotasByUser(propietario: number) {
   return this.mascotasRepository.find({ where: { propietario } });
 }
 
-async getMascotasById(id_mascota: number) {
-  return this.mascotasRepository.find({ where: { id_mascota } });
-}
+
 
 getMascota({page, limit}: PaginationQueryDto){
   const offset = (page-1)* limit
