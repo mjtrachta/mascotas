@@ -9,6 +9,7 @@ import { Turnos } from './entities/turno.entity';
 export class TurnosService {
   id_turno: CreateTurnoDto;
 
+
   constructor(@InjectRepository(Turnos) private turnosRepository: Repository<Turnos>) {}
 
   // endpoints 3 Registrar un turnos:(crea el turno falta verificar disponibilidad)
@@ -16,6 +17,16 @@ export class TurnosService {
     const nuevoTurno = this.turnosRepository.create(turno)
     return this.turnosRepository.save(nuevoTurno)
   }
+
+    async verTurnos(idUsuario: number) {Promise<any>
+    const result = await this.turnosRepository.query(
+    `select id_turno, fecha_inicio, fecha_fin, id_estado, nombre, id_usuario
+    from turnos t
+    join Mascotas m on t.id_mascota = m.id_mascota
+    join Usuarios u on m.propietario = u.Id_usuario
+    where id_estado = 1 and id_cliente = ${idUsuario}`);
+    return result;
+    }
 
   // endpoints 4 Ver mis turnos:(Lo hace por id de mascota y lo tiene que hacer por id de Usuario)
   async getTurnosByUser(id_mascota_turno: number) {
