@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
+import { Mascotas } from "src/mascotas/mascota.entity";
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 
 
 
@@ -7,8 +8,7 @@ export class Turnos  {
   //@PrimaryGeneratedColumn()
   @PrimaryColumn()
   id_turno : number
-  @Column()
-  id_mascota_turno: number
+
   @Column()
   fecha_inicio: Date
   @Column()
@@ -17,7 +17,12 @@ export class Turnos  {
   estado_turno: number
   @Column()
   id_psicologo_turno: number
+  @Column()
+  nota: string
 
+  @ManyToOne(() => Mascotas, mascota => mascota.id_mascota)
+  @JoinColumn({ name: "id_mascota_turno" })
+  mascota: Mascotas;
 }
 
 

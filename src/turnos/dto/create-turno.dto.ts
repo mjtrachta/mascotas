@@ -1,4 +1,4 @@
-import { IsNumber, IsPositive } from "class-validator";
+import { IsNumber, IsPositive, IsString } from "class-validator";
 
 export class CreateTurnoDto {
 
@@ -21,6 +21,9 @@ export class CreateTurnoDto {
   @IsPositive()
   @IsNumber()
   readonly id_psicologo_turno : number;
+
+  @IsString()
+  readonly nota: string;
 }
 
 export class ActualizarTurnoDTO{
@@ -31,6 +34,7 @@ export class ActualizarTurnoDTO{
   readonly fecha_fin? : Date;
   readonly estado_turno? : number;
   readonly id_psicologo_turno? : number;
+  readonly nota? : string;
 
 
 }
@@ -43,6 +47,7 @@ export class GetTurnoDTO{
   readonly fecha_fin : Date;
   readonly estado_turno : number;
   readonly id_psicologo_turno : number;
+  readonly nota: string;
 
 
 }

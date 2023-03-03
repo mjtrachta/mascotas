@@ -18,7 +18,7 @@ async getMascotasById(id_mascota: number) {
 }
 
 async getMascotasByUser(propietario: number) {
-  return this.mascotasRepository.find({ where: { propietario } });
+  return this.mascotasRepository.find({ where: { propietario: { id_usuario: propietario } } });
 }
 
 
@@ -32,11 +32,14 @@ getMascota2(){
   return this.mascotasRepository.find()
 }
 
+}
+
+
+
+/*
 async crearMascota(mascota: CreateMascotaDto){
 
   const nuevaMascota = this.mascotasRepository.create(mascota)
 
   return this.mascotasRepository.save(nuevaMascota)
-}
-}
-
+}*/

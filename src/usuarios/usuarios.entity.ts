@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
+import { Mascotas } from "src/mascotas/mascota.entity";
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, OneToMany } from "typeorm";
 
 
 
@@ -21,4 +22,6 @@ export class Usuarios {
   dni : number;
   @Column()
   numero_telefono: string;
+  @OneToMany(() => Mascotas, mascota => mascota.propietario)
+  mascotas: Mascotas[];
 }

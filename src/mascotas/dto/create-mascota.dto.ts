@@ -32,7 +32,7 @@ export class CreateMascotaDto{
   //readonly fecha_de_nacimiento: Date;
 
   @IsNumber()
-  @IsNotEmpty()
+
   readonly propietario: number;
 
 }

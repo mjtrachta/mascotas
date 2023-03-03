@@ -34,8 +34,8 @@ SwaggerModule.setup('documentacion', app, document);
  */
 
   //app.enableCors({origin: ['http://localhost:3001/','http://127.0.0.1:5501/index.html']});
-  app.use(cors({ origin: ['http://localhost:3000/', 'http://127.0.0.1:5501'] }));
-  await app.listen(3000);
+  app.use(cors({ origin: ['http://localhost:3001/', 'http://127.0.0.1:5501'] }));
+  await app.listen(3001);
 
 
 

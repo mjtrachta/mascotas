@@ -40,9 +40,9 @@ getPsicologos(){
 
 
 
- 
 
-  // endpoints 8 Terminar cita (acceso psicologo, admin):
+
+
 
 
 

@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
-
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
+import {Usuarios} from "../usuarios/usuarios.entity"
 
 
 @Entity({name: 'Mascotas'})
@@ -17,8 +17,8 @@ export class Mascotas {
   apellido: string
   @Column()
   sexo: string
-  //@Column()
-  //fecha_de_nacimiento: Date
-  @Column()
-  propietario: number
+  @ManyToOne(() => Usuarios, usuario => usuario.id_usuario)
+  @JoinColumn({ name: "propietario" })
+  propietario: Usuarios;
+
 }
