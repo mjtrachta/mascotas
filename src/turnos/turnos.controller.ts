@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { TurnosService } from './turnos.service';
-import { CreateTurnoDto } from './dto/create-turno.dto';
+import { CreateTurnoDto, GetTurnoDTO } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Mascotas } from 'src/mascotas/mascota.entity';
+import { Turnos } from './entities/turno.entity';
 
 
 @ApiBearerAuth()
@@ -13,13 +14,17 @@ export class TurnosController {
   constructor(private readonly turnosService: TurnosService) {}
 
 
-  // endpoints 3 Registrar un turnos:(crea el turno falta verificar disponibilidad)
- /* @Post()
-  crearTurno2(@Body() nuevoTurno: CreateTurnoDto){
-    return this.turnosService.crearTurno2(nuevoTurno)
-    }*/
+  // endpoints 2 VerTurnosDisponibles:(Falta)
+  @Get('/disponibles')
+  consultarTurnosDisponibles(@Body() turno: GetTurnoDTO) {
+    return this.turnosService.VerTurnosDisponibles(turno);
+  }
 
-    @Post()
+
+
+  // endpoints 3 Registrar un turnos:())
+
+    @Post('/crear')
   async crearTurno(@Body() createTurnoDto: CreateTurnoDto, @Body() mascota: Mascotas) {
     try {
       const turno = await this.turnosService.crearTurno(createTurnoDto, mascota);
@@ -54,4 +59,17 @@ async getTurnosByPsico(
   const fechaInicioDate = fechaInicio ? new Date(fechaInicio) : new Date();
   return this.turnosService.getTurnosByPsico(idPsicologo, fechaInicioDate);
 }
+
+@Post('/terminar/:id')
+  async terminarTurno(
+    @Param('id') id_turno: number,
+    @Body('nota') nota: string,
+  ) {
+    try {
+      const turno = await this.turnosService.terminarTurno(id_turno, nota);
+      return { success: true, data: turno };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
 }

@@ -1,18 +1,79 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository } from 'typeorm';
-import { CreateTurnoDto } from './dto/create-turno.dto';
+import { Between, IsNull, LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
+import { CreateTurnoDto, GetTurnoDTO } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
 import { Turnos } from './entities/turno.entity';
 import { Mascotas } from 'src/mascotas/mascota.entity';
 import { parseISO, addMinutes, addHours } from 'date-fns';
+import { MascotasService } from '../mascotas/mascotas.service';
+
+
+
 
 @Injectable()
 export class TurnosService {
   id_turno: CreateTurnoDto;
 
 
-  constructor(@InjectRepository(Turnos) private turnosRepository: Repository<Turnos>) {}
+  constructor(@InjectRepository(Turnos) private turnosRepository: Repository<Turnos>,
+              @InjectRepository(Mascotas) private mascotasRepository: Repository<Mascotas>,) {}
+
+  // endpoints 2 VerTurnosDisponibles:(Falta)
+
+  async VerTurnosDisponibles(turnosDisponibles:GetTurnoDTO): Promise<Date[]> {
+    //primero obtengo el tipo para ver el tiempo de la consulta
+    const obtengoTipo = await await this.mascotasRepository.find({
+      select: {
+        especie: true,
+      },
+      where: {
+        id_mascota: turnosDisponibles.id_mascota_turno,
+      },
+    });
+    const tipo = obtengoTipo[0].especie;
+    const duracion = tipo === 'perro' ? 30 : 45; // duración según el tipo de mascota
+    const fechaInicio = new Date(turnosDisponibles.fecha_inicio); // convertir la fecha a un objeto Date
+    fechaInicio.setHours(9, 0, 0, 0); // establecer la hora de inicio de la agenda
+    const fechaFin = new Date(turnosDisponibles.fecha_inicio);
+    fechaFin.setHours(18, 0, 0, 0); // establecer la hora de fin de la agenda
+
+    //obtengo los turnos programados para esa fecha
+    const turnos = await this.turnosRepository.find({
+      where: {
+        fecha_inicio: fechaInicio,
+        id_psicologo_turno: turnosDisponibles.id_psicologo_turno,
+      },
+    });
+
+    const horariosDisponibles = []; //creo array para guardar los turnos disponibles
+    let hora = fechaInicio;
+    while (hora <= fechaFin) {
+      // verificar si la hora está disponible
+      const horaFin = new Date(hora.getTime() + duracion * 60000);
+      const disponible = await this.turnosRepository.count({
+        where: [
+          {
+            fecha_inicio: LessThanOrEqual(horaFin),
+            fecha_fin: MoreThanOrEqual(hora),
+          },
+          {
+            fecha_inicio: LessThan(hora),
+            fecha_fin: MoreThan(horaFin),
+          },
+        ],
+      });
+
+      console.log('DISPONIBILIDAD ' + ' ' + disponible);
+
+      if (disponible == 0) {
+        horariosDisponibles.push(new Date(hora));
+      }
+      // avanzar a la siguiente hora
+      hora = new Date(hora.getTime() + 15 * 60000); // avanzar en bloques de 15 minutos
+    }
+    return horariosDisponibles;
+  }
 
   // endpoints 3 Registrar un turnos:(crea el turno falta verificar disponibilidad)
   async crearTurno(turno: CreateTurnoDto, mascota: Mascotas){
@@ -22,7 +83,7 @@ export class TurnosService {
     const fechaInicioISO = fechaInicio.toISOString();
     const fechaFin = addMinutes(fechaInicio, duracion);
 
-    // Comprobar si la mascota tiene un turno activo
+                    // Comprobar si la mascota tiene un turno activo
     const tieneTurnoActivo = await this.turnosRepository.findOne({
       where: { mascota: { id_mascota: turno.id_mascota_turno }, fecha_fin: null }
     });
@@ -31,7 +92,7 @@ export class TurnosService {
       throw new Error('La mascota ya tiene un turno activo');
     }
 
-    // Buscar un hueco libre en el horario del psicólogo
+                 // Buscar un hueco libre en el horario del psicólogo
     const tieneHuecoLibre = await this.turnosRepository.findOne({
       where: {
         id_psicologo_turno: turno.id_psicologo_turno,
@@ -98,18 +159,21 @@ export class TurnosService {
   }
 
   // endpoints 8 terminar cita (acceso psicologo, admin):
-  async terminarTurno(id_turno: number) {
+  async terminarTurno(id_turno: number, nota: string) {
     const turno = await this.turnosRepository.findOne({ where: { id_turno } });
     if (!turno) {
       throw new Error(`El turno con id ${id_turno} no existe.`);
     }
-    turno.estado_turno = 2;
+    if (turno.estado_turno !== 1) {
+      throw new Error(`No se puede terminar el turno porque el estado actual del turno no es 1.`);
+    }
+    turno.estado_turno = 3;
+    turno.nota = nota;
     return this.turnosRepository.save(turno);
   }
-
 }
 
-  // endpoints 2 VerTurnosDisponibles:
+
 
 
 
