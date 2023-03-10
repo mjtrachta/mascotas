@@ -10,6 +10,7 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { TurnosService } from './turnos.service';
 import { CreateTurnoDto, GetTurnoDTO } from './dto/create-turno.dto';
@@ -21,6 +22,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { MascotasService} from 'src/mascotas/mascotas.service';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 
 @ApiBearerAuth()
@@ -37,27 +40,28 @@ export class TurnosController {
   ) {}
 
   // endpoints 2 VerTurnosDisponibles:(Falta)
+  @UseGuards(AuthGuard('PsicoUsuario'))
   @Get('/disponibles')
   consultarTurnosDisponibles(@Body() turno: GetTurnoDTO) {
     return this.turnosService.VerTurnosDisponibles(turno);
   }
 
   // endpoints 3 Registrar un turnos:())
-
-  //@UseGuards(AuthGuard('PsicoCliente'))
+  @UseGuards(AuthGuard('PsicoUsuario'))
   @Post('/crear')
   registrarTurno2(@Body() idTurno: CreateTurnoDto) {
     return this.turnosService.crearTurno(idTurno)
   }
 
   // endpoints 4 Ver mis turnos:()
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard('PsicoUsuario'))
   @Get('/usuario/:idUsuario')
   async getTurnosByUser(@Param('idUsuario') idUsuario: number, @Req() req) {
     return this.turnosService.getTurnosByUser(idUsuario);
   }
 
   // endpoints 5 Cancelar una cita:
+  @UseGuards(JwtAuthGuard) /// falta corregir este guards
   @Patch('/cancelar/:id_turno')
   async cancelarTurno(@Param('id_turno') idTurno: number) {
     await this.turnosService.cancelarTurno(idTurno);
@@ -65,6 +69,7 @@ export class TurnosController {
   }
 
   // endpoints 7 Ver las citas x Psicologo(acceso psicologo, admin):
+  @UseGuards(AuthGuard('AdminPsico'))
   @Get('/psicologo/:idPsicologo')
   async getTurnosByPsico(
     @Param('idPsicologo') idPsicologo: number,
@@ -75,6 +80,9 @@ export class TurnosController {
     return this.turnosService.getTurnosByPsico(idPsicologo, fechaInicioDate);
   }
 
+
+  // endpoints 8 terminar cita (acceso psicologo, admin):
+  @UseGuards(AuthGuard('AdminPsico'))
   @Post('/terminar/:id')
   async terminarTurno(
     @Param('id') id_turno: number,
