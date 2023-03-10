@@ -1,24 +1,29 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
-import {Usuarios} from "../usuarios/usuarios.entity"
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  PrimaryColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Usuarios } from '../usuarios/usuarios.entity';
 
-
-@Entity({name: 'Mascotas'})
+@Entity({ name: 'Mascotas' })
 export class Mascotas {
   //@PrimaryGeneratedColumn()
   @PrimaryColumn()
-  id_mascota : number
+  id_mascota: number;
   @Column()
-  especie: string
+  especie: string;
   @Column()
-  raza: string
+  raza: string;
   @Column()
-  nombre: string
+  nombre: string;
   @Column()
-  apellido: string
+  apellido: string;
   @Column()
-  sexo: string
-  @ManyToOne(() => Usuarios, usuario => usuario.id_usuario)
-  @JoinColumn({ name: "propietario" })
+  sexo: string;
+  @ManyToOne(() => Usuarios, (usuario) => usuario.id_usuario)
+  @JoinColumn({ name: 'propietario' })
   propietario: Usuarios;
-
 }

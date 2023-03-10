@@ -1,5 +1,6 @@
 import { IsString, IsNumber, IsEmail, IsNotEmpty, IsPositive, Min, Max} from "class-validator";
 import { isNotEmpty, isString } from "class-validator/types/decorator/decorators";
+import { PartialType } from "@nestjs/swagger";
 
 export class CrearUsuarioDTO{
 
@@ -35,7 +36,7 @@ export class CrearUsuarioDTO{
   readonly numero_telefono: string;
 
 }
-
+/*
 export class ActualizarUsuarioDTO{
 
   readonly id_usuario? : number;
@@ -48,6 +49,7 @@ export class ActualizarUsuarioDTO{
   readonly numero_telefono?: string;
 
 }
+*/
 
 export class GetUsuarioDTO{
 
@@ -61,3 +63,5 @@ export class GetUsuarioDTO{
   readonly numero_telefono: string;
 
 }
+
+export class ActualizarUsuarioDTO extends PartialType(CrearUsuarioDTO){}

@@ -1,19 +1,24 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { JwtStrategy } from './auth/jwt.strategy';
-import { MascotasModule} from './mascotas/mascotas.module';
+import { MascotasModule } from './mascotas/mascotas.module';
 import { TurnosModule } from './turnos/turnos.module';
-
-
+import { DatabaseModule } from './database/database.module';
 
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mssql',
       host: 'localhost',
@@ -21,16 +26,15 @@ import { TurnosModule } from './turnos/turnos.module';
       username: 'sa',
       password: '123456',
       database: 'MASCOTAS',
-      entities: ["dist/**/*.entity.js"],
+      entities: ['dist/**/*.entity.js'],
 
-      extra: {trustServerCertificate:true}
+      extra: { trustServerCertificate: true },
     }),
     UsuariosModule,
     AuthModule,
     MascotasModule,
-    TurnosModule
-
-
+    TurnosModule,
+    DatabaseModule,
   ],
 
   controllers: [AppController],

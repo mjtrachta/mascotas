@@ -1,3 +1,4 @@
+import { PartialType } from "@nestjs/swagger";
 import { IsNumber, IsPositive, IsString } from "class-validator";
 
 export class CreateTurnoDto {
@@ -12,7 +13,7 @@ export class CreateTurnoDto {
 
   readonly fecha_inicio: Date;
 
-  readonly fecha_fin: Date;
+   fecha_fin: Date;
 
   @IsPositive()
   @IsNumber()
@@ -25,7 +26,7 @@ export class CreateTurnoDto {
   @IsString()
   readonly nota: string;
 }
-
+/*
 export class ActualizarTurnoDTO{
 
   readonly id_turno? : number;
@@ -38,6 +39,9 @@ export class ActualizarTurnoDTO{
 
 
 }
+*/
+
+export class ActualizarTurnoDTO extends PartialType(CreateTurnoDto){}
 
 export class GetTurnoDTO{
 

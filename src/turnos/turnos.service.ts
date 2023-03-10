@@ -1,6 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, IsNull, LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
+import {
+  Between,
+  IsNull,
+  LessThan,
+  LessThanOrEqual,
+  MoreThan,
+  MoreThanOrEqual,
+  Not,
+  Repository,
+} from 'typeorm';
 import { CreateTurnoDto, GetTurnoDTO } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
 import { Turnos } from './entities/turno.entity';
@@ -8,20 +17,19 @@ import { Mascotas } from 'src/mascotas/mascota.entity';
 import { parseISO, addMinutes, addHours } from 'date-fns';
 import { MascotasService } from '../mascotas/mascotas.service';
 
-
-
-
 @Injectable()
 export class TurnosService {
   id_turno: CreateTurnoDto;
 
-
-  constructor(@InjectRepository(Turnos) private turnosRepository: Repository<Turnos>,
-              @InjectRepository(Mascotas) private mascotasRepository: Repository<Mascotas>,) {}
+  constructor(
+    @InjectRepository(Turnos) private turnosRepository: Repository<Turnos>,
+    @InjectRepository(Mascotas)
+    private mascotasRepository: Repository<Mascotas>,
+  ) {}
 
   // endpoints 2 VerTurnosDisponibles:(Falta)
 
-  async VerTurnosDisponibles(turnosDisponibles:GetTurnoDTO): Promise<Date[]> {
+  async VerTurnosDisponibles(turnosDisponibles: GetTurnoDTO): Promise<Date[]> {
     //primero obtengo el tipo para ver el tiempo de la consulta
     const obtengoTipo = await await this.mascotasRepository.find({
       select: {
@@ -76,40 +84,101 @@ export class TurnosService {
   }
 
   // endpoints 3 Registrar un turnos:(crea el turno falta verificar disponibilidad)
-  async crearTurno(turno: CreateTurnoDto, mascota: Mascotas){
-    const duracion = mascota.especie === 'perro' ? 30 : 45;
-
-    const fechaInicio = new Date(turno.fecha_inicio);
-    const fechaInicioISO = fechaInicio.toISOString();
-    const fechaFin = addMinutes(fechaInicio, duracion);
-
-                    // Comprobar si la mascota tiene un turno activo
-    const tieneTurnoActivo = await this.turnosRepository.findOne({
-      where: { mascota: { id_mascota: turno.id_mascota_turno }, fecha_fin: null }
-    });
-
-    if (tieneTurnoActivo) {
-      throw new Error('La mascota ya tiene un turno activo');
-    }
-
-                 // Buscar un hueco libre en el horario del psicólogo
-    const tieneHuecoLibre = await this.turnosRepository.findOne({
+  async crearTurno(nuevoTurno: CreateTurnoDto) {
+    //primero obtengo el tipo para ver el tiempo de la consulta
+    console.log(nuevoTurno.id_mascota_turno)
+    const obtengoTipo =  await this.mascotasRepository.find({
+      select: {
+        especie: true,
+      },
       where: {
-        id_psicologo_turno: turno.id_psicologo_turno,
-        fecha_inicio: Between(turno.fecha_inicio, fechaFin),
-        fecha_fin: null
+        id_mascota: nuevoTurno.id_mascota_turno
+      },
+    });
+    const Tipo = obtengoTipo[0].especie;
+
+    //verifico que la mascota no tenga un turno dado
+    console.log(nuevoTurno.id_mascota_turno)
+    const verificoTurno =  await this.turnosRepository.count({
+      where: {
+        id_mascota_turno: nuevoTurno.id_mascota_turno
+      },
+    });
+    const turno = verificoTurno;
+
+    if (Tipo === 'perro' ) {
+      const Fecha_inicio = new Date(nuevoTurno.fecha_inicio);
+      const nuevaFechaFin = new Date(Fecha_inicio.getTime() + 30 * 60000);
+      nuevoTurno.fecha_fin = nuevaFechaFin;
+
+      //Si la mascota no tiene un turno dado verifico si hay lugar entre la fecha de inicio y fin
+      console.log('verificando disponibilidad');
+
+      const verificacion = await this.turnosRepository.count({
+        where: {
+          fecha_inicio: LessThanOrEqual(nuevoTurno.fecha_fin),
+          fecha_fin: MoreThanOrEqual(nuevoTurno.fecha_inicio),
+        },
+      });
+
+      const verificacionLugar = verificacion;
+
+      //si hay lugar en las fechas registro el turno
+      if (verificacionLugar == 0) {
+        console.log('hay lugar en las fechas seleccionadas');
+        console.log(nuevoTurno.id_mascota_turno)
+        const registrandoTurno = this.turnosRepository.create({
+          id_turno: nuevoTurno.id_turno,
+          id_mascota_turno: nuevoTurno.id_mascota_turno,
+          fecha_inicio: nuevoTurno.fecha_inicio,
+          fecha_fin: nuevaFechaFin, //no me toma la nueva fecha de fin.
+          id_psicologo_turno: nuevoTurno.id_psicologo_turno,
+        });
+
+        await this.turnosRepository.save(registrandoTurno);
+
+        return 'registrando turno';
+      } else {
+        return 'No hay lugar en las fechas solicitadas';
       }
-    });
+    } else if (Tipo === 'gato' ) {
+      const Fecha_inicio = new Date(nuevoTurno.fecha_inicio);
+      const nuevaFechaFin = new Date(Fecha_inicio.getTime() + 45 * 60000);
+      nuevoTurno.fecha_fin = nuevaFechaFin;
 
-    if (tieneHuecoLibre) {
-      throw new Error('No hay hueco libre para la mascota en ese horario');
+      //Si la mascota no tiene un turno dado verifico si hay lugar entre la fecha de inicio y fin
+      console.log('verificando disponibilidad');
+
+      const verificacion = await this.turnosRepository.count({
+        where: {
+          fecha_inicio: LessThanOrEqual(nuevoTurno.fecha_fin),
+          fecha_fin: MoreThanOrEqual(nuevoTurno.fecha_inicio),
+        },
+      });
+
+      const verificacionLugar = verificacion;
+
+      //si hay lugar en las fechas registro el turno
+      if (verificacionLugar == 0) {
+        console.log('hay lugar en las fechas seleccionadas');
+        console.log(nuevoTurno.id_mascota_turno)
+        const registrandoTurno = this.turnosRepository.create({
+          id_turno: nuevoTurno.id_turno,
+          id_mascota_turno: nuevoTurno.id_mascota_turno,
+          fecha_inicio: nuevoTurno.fecha_inicio,
+          fecha_fin: nuevaFechaFin, //no me toma la nueva fecha de fin.
+          id_psicologo_turno: nuevoTurno.id_psicologo_turno,
+        });
+
+        await this.turnosRepository.save(registrandoTurno);
+
+        return 'registrando turno';
+      } else {
+        return 'No hay lugar en las fechas solicitadas';
+      }
+    } else if (turno == 1) {
+      return 'La mascota ya tiene un turno activo registrado';
     }
-
-    const nuevoTurno = this.turnosRepository.create({
-      ...turno, mascota: { id_mascota: turno.id_mascota_turno },
-      fecha_fin: fechaFin,
-    });
-    return this.turnosRepository.save(nuevoTurno);
   }
 
   // endpoints 4 Ver mis turnos:
@@ -135,6 +204,8 @@ export class TurnosService {
     return query;
   }
 
+
+
   // endpoints 5 Cancelar una cita:
   async cancelarTurno(id_turno: number) {
     const turno = await this.turnosRepository.findOne({ where: { id_turno } });
@@ -145,16 +216,16 @@ export class TurnosService {
     return this.turnosRepository.save(turno);
   }
 
-   // endpoints 7 Ver las citas x Psicologo(acceso psicologo, admin):
+  // endpoints 7 Ver las citas x Psicologo(acceso psicologo, admin):
 
-   async getTurnosByPsico(id_psicologo_turno: number, fecha_inicio: Date) {
+  async getTurnosByPsico(id_psicologo_turno: number, fecha_inicio: Date) {
     const fechaFin = addHours(fecha_inicio, 24);
     //console.log({ where: { id_psicologo_turno, fecha_inicio }});
     return this.turnosRepository.find({
       where: {
         id_psicologo_turno,
-        fecha_inicio: Between(fecha_inicio, fechaFin)
-      }
+        fecha_inicio: Between(fecha_inicio, fechaFin),
+      },
     });
   }
 
@@ -165,18 +236,15 @@ export class TurnosService {
       throw new Error(`El turno con id ${id_turno} no existe.`);
     }
     if (turno.estado_turno !== 1) {
-      throw new Error(`No se puede terminar el turno porque el estado actual del turno no es 1.`);
+      throw new Error(
+        `No se puede terminar el turno porque el estado actual del turno no es 1.`,
+      );
     }
     turno.estado_turno = 3;
     turno.nota = nota;
     return this.turnosRepository.save(turno);
   }
 }
-
-
-
-
-
 
 /*async verTurnos(idUsuario: number) {Promise<any>
     const result = await this.turnosRepository.query(
@@ -187,5 +255,3 @@ export class TurnosService {
     where Estado_turno = 1 and ${idUsuario}`);
     return result;
     } */
-
-

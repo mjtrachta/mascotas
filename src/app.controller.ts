@@ -20,8 +20,4 @@ export class AppController {
   hello() {
     return 'con /sas/';
   }
-
-
-
-  
 }
