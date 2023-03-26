@@ -25,7 +25,7 @@ export class UsuariosController {
   getUsuarios() {
     return this.usuariosService.getUsuarios();
   }
-
+/*
   // endpoints 1 VerPiscologos:(acceso a admins y clientes)
   @UseGuards(AuthGuard('PsicoUsuario'))
   @Get('psicologos')
@@ -36,5 +36,5 @@ export class UsuariosController {
   @Post()
   crearUsuario(@Body() nuevoUsuario: CrearUsuarioDTO) {
     return this.usuariosService.crearUsuario(nuevoUsuario);
-  }
+  }*/
 }

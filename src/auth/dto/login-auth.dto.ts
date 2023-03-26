@@ -3,8 +3,8 @@ import {IsEmail, maxLength, MaxLength, minLength, MinLength} from 'class-validat
 export class LoginAuthDto {
 
   @IsEmail()
-  email: string;
+  Email: string;
 
   @MaxLength(20)
-  password: string;
+  Password: string;
 }

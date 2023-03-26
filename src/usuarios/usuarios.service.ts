@@ -1,46 +1,46 @@
 // biblioteca que se comunica con la base de datos para hacer operaciones
-import { Injectable } from '@nestjs/common';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-import { Usuarios } from './usuarios.entity';
-import { Repository } from 'typeorm';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { Usuarios } from './usuarios.schema';
+
 import { CrearUsuarioDTO, ActualizarUsuarioDTO } from './DTO/crear-usuario.dto';
 import * as argon2 from 'argon2';
 import { UsuariosModule } from './usuarios.module';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import {Db} from 'mongodb'
+import { config } from 'process';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
 
 @Injectable()
 export class UsuariosService {
-  mail: CrearUsuarioDTO;
-
-  constructor(
-    @InjectRepository(Usuarios)
-    private usuariosRepository: Repository<Usuarios>,
-    private configService: ConfigService,
-  ) {}
+  //mail: CrearUsuarioDTO;
+  constructor(@InjectModel(Usuarios.name) private readonly usuariosModel: Model<Usuarios>) {}
 
   getUsuarios() {
-    return this.usuariosRepository.find();
+    return this.usuariosModel.find();
   }
 
   // endpoints 1 VerPiscologos:(acceso a admins y clientes)
 
   getPsicologos() {
-    return this.usuariosRepository.find({
+    return this.usuariosModel.find({
       select: {
-        id_usuario: true,
+        Id_usuario: true,
         nombre: true,
       },
       where: {
-        id_rol: 3, // rol 3 es psicologos
+        role: "psicologo", // rol 3 es psicologos
       },
     });
   }
-
+/*
   async crearUsuario(usuario: CrearUsuarioDTO) {
     const nuevoUsuario = this.usuariosRepository.create(usuario);
-    const hashPassword = await argon2.hash(nuevoUsuario.password);
-    nuevoUsuario.password = hashPassword;
+    const hashPassword = await argon2.hash(nuevoUsuario.Password);
+    nuevoUsuario.Password = hashPassword;
     return this.usuariosRepository.save(nuevoUsuario);
-  }
+  }*/
 }

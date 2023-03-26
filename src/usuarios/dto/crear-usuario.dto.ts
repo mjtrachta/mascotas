@@ -6,45 +6,46 @@ export class CrearUsuarioDTO{
 
   @IsPositive()
   @IsNumber()
-  readonly id_usuario : number;
+  readonly Id_usuario : number;
 
   @IsString()
   @IsNotEmpty()
-  readonly nombre: string;
+  readonly Nombre: string;
 
   @IsString()
   @IsNotEmpty()
-  readonly apellido: string;
+  readonly Apellido: string;
 
 
-  readonly mail: string;
+  readonly Email: string;
 
 
-  readonly pass: string;
+  readonly Password: string;
 
   @Min(1)
   @Max(3)
   @IsNumber()
   @IsNotEmpty()
-  readonly id_rol: number;
-
+  readonly Role: number;
+/*
   @IsPositive()
   @IsNumber()
   readonly dni : number;
 
   @IsString()
   readonly numero_telefono: string;
-
+*/
 }
 /*
 export class ActualizarUsuarioDTO{
 
-  readonly id_usuario? : number;
-  readonly nombre?: string;
-  readonly apellido?: string;
-  readonly email?: string;
-  readonly password?: string;
-  readonly id_rol?: number;
+  readonly Id_usuario? : number;
+  readonly Nombre?: string;
+  readonly Apellido?: string;
+  readonly Email?: string;
+  readonly Password?: string;
+  readonly Role?: number;
+
   readonly dni?: number;
   readonly numero_telefono?: string;
 
@@ -53,15 +54,16 @@ export class ActualizarUsuarioDTO{
 
 export class GetUsuarioDTO{
 
-  readonly id_usuario : number;
-  readonly nombre: string;
-  readonly apellido: string;
-  readonly email: string;
-  readonly password: string;
-  readonly id_rol: number;
+  readonly Id_usuario : number;
+  readonly Nombre: string;
+  readonly Apellido: string;
+  readonly Email: string;
+  readonly Password: string;
+  readonly Role: number;
+  /*
   readonly dni : number;
   readonly numero_telefono: string;
-
+  */
 }
 
 export class ActualizarUsuarioDTO extends PartialType(CrearUsuarioDTO){}

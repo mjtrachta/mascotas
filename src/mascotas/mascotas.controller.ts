@@ -21,15 +21,17 @@ import { MascotasService } from './mascotas.service';
 export class MascotasController {
   constructor(private readonly mascotasService: MascotasService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @Get('usuario/:idUsuario')
-  async getMascotasByUser(@Param('idUsuario') idUsuario: number, @Req() req) {
-    return this.mascotasService.getMascotasByUser(idUsuario);
-  }
+
 
   @Get(':idMascota')
   async getMascotasById(@Param('idMascota') idMascota: number, @Req() req) {
     return this.mascotasService.getMascotasById(idMascota);
+  }
+  /*
+  @UseGuards(JwtAuthGuard)
+  @Get('usuario/:idUsuario')
+  async getMascotasByUser(@Param('idUsuario') idUsuario: number, @Req() req) {
+    return this.mascotasService.getMascotasByUser(idUsuario);
   }
 
   @UseGuards(JwtAuthGuard)

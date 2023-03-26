@@ -1,32 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import {
-  Between,
-  IsNull,
-  LessThan,
-  LessThanOrEqual,
-  MoreThan,
-  MoreThanOrEqual,
-  Not,
-  Repository,
-} from 'typeorm';
+
+
 import { CreateTurnoDto, GetTurnoDTO } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
-import { Turnos } from './entities/turno.entity';
-import { Mascotas } from 'src/mascotas/mascota.entity';
+import { Turnos } from './entities/turno.schema';
+import { Mascotas } from 'src/mascotas/mascota.schema';
 import { parseISO, addMinutes, addHours } from 'date-fns';
 import { MascotasService } from '../mascotas/mascotas.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
 
 @Injectable()
 export class TurnosService {
-  id_turno: CreateTurnoDto;
-
   constructor(
-    @InjectRepository(Turnos) private turnosRepository: Repository<Turnos>,
-    @InjectRepository(Mascotas)
-    private mascotasRepository: Repository<Mascotas>,
+    @InjectModel(Turnos.name) private turnosModel: Model<Turnos>,
+    @InjectModel(Mascotas.name) private mascotasModel: Model<Mascotas>,
+    private mascotasService: MascotasService,
   ) {}
-
+/*
   // endpoints 2 VerTurnosDisponibles:(Falta)
 
   async VerTurnosDisponibles(turnosDisponibles: GetTurnoDTO): Promise<Date[]> {
@@ -182,7 +174,7 @@ export class TurnosService {
   }
 
   // endpoints 4 Ver mis turnos:
-  async getTurnosByUser(id_usuario: number): Promise<Turnos[]> {
+  async getTurnosByUser(Id_usuario: number): Promise<Turnos[]> {
     const query = await this.turnosRepository
       .createQueryBuilder('turnos')
       .select([
@@ -191,13 +183,13 @@ export class TurnosService {
         'turnos.fecha_fin',
         'turnos.Estado_turno',
         'mascotas.nombre',
-        'usuarios.id_usuario',
+        'usuarios.Id_usuario',
       ])
       .innerJoin('turnos.mascota', 'mascotas')
       .innerJoin('mascotas.propietario', 'usuarios')
-      .where('turnos.Estado_turno = :estado and usuarios.id_usuario = :id', {
+      .where('turnos.Estado_turno = :estado and usuarios.Id_usuario = :id', {
         estado: 1,
-        id: id_usuario,
+        id: Id_usuario,
       })
       .getMany();
 
@@ -243,7 +235,7 @@ export class TurnosService {
     turno.estado_turno = 3;
     turno.nota = nota;
     return this.turnosRepository.save(turno);
-  }
+  }*/
 }
 
 /*async verTurnos(idUsuario: number) {Promise<any>

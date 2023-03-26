@@ -22,14 +22,14 @@ export class JwtStrategy extends PassportStrategy(JwtStrategyFromPassport) {
     const idUsuario = +req.params.idUsuario;
     console.log(idUsuario)
 
-    if (payload.id_rol === 1) {
-      return { id_usuario: payload.id_usuario };
+    if (payload.Role === "admin"  ) {
+      return { Id_usuario: payload.Id_usuario };
     }
 
-    if (idUsuario !== payload.id_usuario) {
+    if (idUsuario !== payload.Id_usuario) {
       throw new HttpException('ehh que estas queriendo ver', HttpStatus.FORBIDDEN);
     }
-    return { id_usuario: payload.id_usuario };
+    return { Id_usuario: payload.Id_usuario };
   }
 
 }

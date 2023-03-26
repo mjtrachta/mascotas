@@ -16,10 +16,10 @@ import { TurnosService } from './turnos.service';
 import { CreateTurnoDto, GetTurnoDTO } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Mascotas } from 'src/mascotas/mascota.entity';
-import { Turnos } from './entities/turno.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Mascotas } from 'src/mascotas/mascota.schema';
+import { Turnos } from './entities/turno.schema';
+
+
 
 import { MascotasService} from 'src/mascotas/mascotas.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -31,14 +31,12 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('turnos')
 export class TurnosController {
 
-
   constructor(
     private readonly turnosService: TurnosService,
     private readonly mascotasService: MascotasService,
-    @InjectRepository(Mascotas) // inyectar el repositorio de mascotas
-    private readonly mascotasRepository: Repository<Mascotas>, // declarar la propiedad mascotasRepository
   ) {}
 
+  /*
   // endpoints 2 VerTurnosDisponibles:(Falta)
   @UseGuards(AuthGuard('PsicoUsuario'))
   @Get('/disponibles')
@@ -95,4 +93,5 @@ export class TurnosController {
       return { success: false, error: error.message };
     }
   }
+  */
 }
