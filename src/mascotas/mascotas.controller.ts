@@ -27,7 +27,7 @@ export class MascotasController {
   async getMascotasById(@Param('idMascota') idMascota: number, @Req() req) {
     return this.mascotasService.getMascotasById(idMascota);
   }
-  /*
+
   @UseGuards(JwtAuthGuard)
   @Get('usuario/:idUsuario')
   async getMascotasByUser(@Param('idUsuario') idUsuario: number, @Req() req) {
@@ -45,9 +45,9 @@ export class MascotasController {
     return this.mascotasService.getMascota2();
   }
 
-  /* @Post()
+   @Post()
   crearMascota(@Body() nuevaMascota: CreateMascotaDto){
     return this.mascotasService.crearMascota(nuevaMascota)
 
-    }*/
+    }
 }

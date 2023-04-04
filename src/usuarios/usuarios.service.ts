@@ -25,22 +25,16 @@ export class UsuariosService {
 
   // endpoints 1 VerPiscologos:(acceso a admins y clientes)
 
-  getPsicologos() {
+  async getPsicologos() {
     return this.usuariosModel.find({
-      select: {
-        Id_usuario: true,
-        nombre: true,
-      },
-      where: {
-        role: "psicologo", // rol 3 es psicologos
-      },
-    });
+      Role: "psicologo", // rol 3 es psicologos
+    }).select('Id_usuario Nombre');
   }
-/*
+
   async crearUsuario(usuario: CrearUsuarioDTO) {
-    const nuevoUsuario = this.usuariosRepository.create(usuario);
+    const nuevoUsuario = new this.usuariosModel(usuario);
     const hashPassword = await argon2.hash(nuevoUsuario.Password);
     nuevoUsuario.Password = hashPassword;
-    return this.usuariosRepository.save(nuevoUsuario);
-  }*/
+    return nuevoUsuario.save();
+  }
 }

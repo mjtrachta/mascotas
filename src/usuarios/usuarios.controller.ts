@@ -20,13 +20,13 @@ import { UsuariosService } from './usuarios.service';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
   getUsuarios() {
     return this.usuariosService.getUsuarios();
   }
-/*
-  // endpoints 1 VerPiscologos:(acceso a admins y clientes)
+
+  // endpoints 1 VerPiscologos:(acceso a admins y usuarios)
   @UseGuards(AuthGuard('PsicoUsuario'))
   @Get('psicologos')
   getPsicologos() {
@@ -36,5 +36,5 @@ export class UsuariosController {
   @Post()
   crearUsuario(@Body() nuevoUsuario: CrearUsuarioDTO) {
     return this.usuariosService.crearUsuario(nuevoUsuario);
-  }*/
+  }
 }

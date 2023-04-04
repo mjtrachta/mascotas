@@ -22,11 +22,10 @@ export class CrearUsuarioDTO{
 
   readonly Password: string;
 
-  @Min(1)
-  @Max(3)
-  @IsNumber()
+
+  @IsString()
   @IsNotEmpty()
-  readonly Role: number;
+  readonly Role: string;
 /*
   @IsPositive()
   @IsNumber()
@@ -59,7 +58,7 @@ export class GetUsuarioDTO{
   readonly Apellido: string;
   readonly Email: string;
   readonly Password: string;
-  readonly Role: number;
+  readonly Role: string;
   /*
   readonly dni : number;
   readonly numero_telefono: string;

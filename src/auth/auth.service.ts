@@ -21,15 +21,19 @@ export class AuthService {
     return nuevoUsuario.save();
   }
 
+  // 0- login de usuario
+
   async login(userObjetLogin: LoginAuthDto) {
     const { Email, Password } = userObjetLogin;
     const findUser = await this.usuariosModel.findOne({ Email });
-    if (!findUser) throw new HttpException('USER_NOT_FOUNT', 404);
+    if (!findUser) {
+      throw new HttpException('USER_NOT_FOUNT', 404)
+    };
 
     const checkPass = await argon2.verify(findUser.Password, Password);
     if (!checkPass) throw new HttpException('PASSWORD_INVALID', 403);
 
-    const payload = { Id_usuario: findUser.Id_usuario, role: findUser.Role };
+    const payload = { Id_usuario: findUser.Id_usuario, Role: findUser.Role };
     const token = this.jwtServices.sign(payload);
 
     const data = {
@@ -39,4 +43,28 @@ export class AuthService {
 
     return data;
   }
+
+  async login2(userObjetLogin: LoginAuthDto) {
+    const { Email, Password } = userObjetLogin;
+    const findUser = await this.usuariosModel.findOne({ Email });
+    if (!findUser) {
+      throw new HttpException('USER_NOT_FOUND', HttpStatus.NOT_FOUND);
+    }
+
+    const checkPass = await argon2.verify(findUser.Password, Password);
+    if (!checkPass) {
+      throw new HttpException('PASSWORD_INVALID', HttpStatus.FORBIDDEN);
+    }
+
+    const payload = { Id_usuario: findUser.Id_usuario, Role: findUser.Role };
+    const token = this.jwtServices.sign(payload);
+
+    const data = {
+      user: findUser,
+      token,
+    };
+
+    return data;
+  }
+
 }
