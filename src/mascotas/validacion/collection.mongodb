@@ -1,0 +1,37 @@
+use("mascotas")
+
+db.createCollection('mascotas', {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["Id_Mascota", "Especie", "Nombre"],
+      //additionalProperties: false, // me aseguro que no se inserten parametros que no he definido y debo agregar la propiedad de _id
+      properties: {
+        Id_Mascota: {
+          bsonType: "number",
+        },
+        Especie: {
+          bsonType: "string",
+        },
+        Raza: {
+          bsonType: "string",
+        },
+        Nombre: {
+          bsonType: "string",
+        },
+        Apellido: {
+          bsonType: "string",
+        },
+        Sexo: {
+          enum: ['Macho', 'Hembra']
+        },
+        Fecha_Nacimiento: {
+          bsonType: "date",
+        },
+        Propietario: {
+          bsonType: "objectId",
+        }
+      },
+    }
+  }
+})

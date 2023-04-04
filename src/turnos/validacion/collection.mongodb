@@ -1,0 +1,36 @@
+use("mascotas");
+
+db.createCollection('turnos', {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["Id_turno"],
+      //additionalProperties: false, // me aseguro que no se inserten parametros que no he definido y debo agregar la propiedad de _id
+      properties: {
+        Id_turno: {
+          bsonType: "number",
+          description: "debe ser un entero y es obligatorio"
+        },
+        Id_mascota_turno: {
+          bsonType: ["int", "null"],
+        },
+        Fecha_inicio: {
+          bsonType: ["date", "null"],
+        },
+        Fecha_fin: {
+          bsonType: ["date", "null"],
+        },
+        Estado_turno: {
+          bsonType: ["int", "null"],
+        },
+        Id_psicologo_turno: {
+          bsonType: ["int", "null"],
+        },
+        nota: {
+          bsonType: ["string", "null"],
+        }
+      },
+      additionalProperties: false
+    }
+  }
+});

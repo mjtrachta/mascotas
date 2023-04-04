@@ -1,0 +1,98 @@
+use("mascotas")
+/*
+db.usuarios.insertOne(
+{
+  Id_usuario: 1,
+  Nombre: "Juan",
+  Apellido: "Pérez",
+  Email: "juanperez@gmail.com",
+  Password: "JuanPerez123",
+  role: "admin"
+})
+*/
+
+db.usuarios.insertMany([
+  {
+    Id_usuario: 1,
+    Nombre: "Juan",
+    Apellido: "Pérez",
+    Email: "juanperez@gmail.com",
+    Password: "JuanPerez123",
+    Role: "admin"
+  },
+  {
+    Id_usuario: 2,
+    Nombre: "María",
+    Apellido: "Gómez",
+    Email: "mariagomez@gmail.com",
+    Password: "MariaGomez123",
+    Role: "psicologo"
+  },
+  {
+    Id_usuario: 3,
+    Nombre: "Pedro",
+    Apellido: "Fernández",
+    Email: "pedrofernandez@gmail.com",
+    Password: "PedroFernandez123",
+    Role: "psicologo"
+  },
+  {
+    Id_usuario: 4,
+    Nombre: "Ana",
+    Apellido: "López",
+    Email: "anajlopez@gmail.com",
+    Password: "AnaLopez123",
+    Role: "user"
+  },
+  {
+    Id_usuario: 5,
+    Nombre: "Sofía",
+    Apellido: "García",
+    Email: "sofiagarcia@gmail.com",
+    Password: "SofiaGarcia123",
+    Role: "user"
+  },
+  {
+    Id_usuario: 6,
+    Nombre: "Lucas",
+    Apellido: "Martínez",
+    Email: "lucasmartinez@gmail.com",
+    Password: "LucasMartinez123",
+    Role: "user"
+  },
+  {
+    Id_usuario: 7,
+    Nombre: "Marta",
+    Apellido: "Díaz",
+    Email: "martadiaz@gmail.com",
+    Password: "MartaDiaz123",
+    Role: "user"
+  },
+  {
+    Id_usuario: 8,
+    Nombre: "Jorge",
+    Apellido: "Ruiz",
+    Email: "jorgeruiz@gmail.com",
+    Password: "JorgeRuiz123",
+    Role: "user"
+  },
+  {
+    Id_usuario: 9,
+    Nombre: "Carla",
+    Apellido: "Sánchez",
+    Email: "carlasanchez@gmail.com",
+    Password: "CarlaSanchez123",
+    Role: "user"
+  },
+  {
+    Id_usuario: 10,
+    Nombre: "Federico",
+    Apellido: "González",
+    Email: "federicogonzalez@gmail.com",
+    Password: "FedericoGonzalez123",
+    Role: "user"
+  },
+])
+
+
+

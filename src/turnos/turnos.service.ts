@@ -18,7 +18,7 @@ export class TurnosService {
     @InjectModel(Mascotas.name) private mascotasModel: Model<Mascotas>,
     private mascotasService: MascotasService,
   ) {}
-/*
+
   // endpoints 2 VerTurnosDisponibles:(Falta)
 
   async VerTurnosDisponibles(turnosDisponibles: GetTurnoDTO): Promise<Date[]> {

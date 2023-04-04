@@ -1,0 +1,200 @@
+use("mascotas")
+
+db.mascotas.insertOne(
+  {
+    Id_Mascota: 21,
+    Especie: "Perro",
+    Raza: "Golden Retriever",
+    Nombre: "Max",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2018-05-12"),
+    Propietario: ObjectId("641b93977e68771ed7f4adde")
+  }
+)
+
+
+/*
+db.mascotas.insertMany([
+  {
+    Id_Mascota: 1,
+    Especie: "Perro",
+    Raza: "Golden Retriever",
+    Nombre: "Max",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2018-05-12"),
+    Propietario: ObjectId("641b93977e68771ed7f4adde")
+  },
+  {
+    Id_Mascota: 2,
+    Especie: "Gato",
+    Raza: "Siames",
+    Nombre: "Luna",
+    Sexo: "Hembra",
+    Fecha_Nacimiento: new Date("2020-03-28"),
+    Propietario: ObjectId("641b93977e68771ed7f4adde")
+  },
+  {
+    Id_Mascota: 3,
+    Especie: "Perro",
+    Raza: "Bulldog",
+    Nombre: "Rocky",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2019-09-15"),
+    Propietario: ObjectId("641b93977e68771ed7f4addf")
+  },
+  {
+    Id_Mascota: 4,
+    Especie: "Gato",
+    Raza: "Persa",
+    Nombre: "Nina",
+    Sexo: "Hembra",
+    Fecha_Nacimiento: new Date("2021-01-08"),
+    Propietario: ObjectId("641b93977e68771ed7f4addf")
+  },
+  {
+    Id_Mascota: 5,
+    Especie: "Pez",
+    Raza: "Goldfish",
+    Nombre: "Bubbles",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2022-02-22"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade0")
+  },
+  {
+    Id_Mascota: 6,
+    Especie: "Perro",
+    Raza: "Chihuahua",
+    Nombre: "Taco",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2020-06-18"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade0")
+  },
+  {
+    Id_Mascota: 7,
+    Especie: "Gato",
+    Raza: "Sphynx",
+    Nombre: "Salem",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2019-02-10"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade1")
+  },
+  {
+    Id_Mascota: 8,
+    Especie: "Perro",
+    Raza: "Labrador",
+    Nombre: "Buddy",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2021-08-05"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade1")
+  },
+  {
+    Id_Mascota: 9,
+    Especie: "Gato",
+    Raza: "Bengal",
+    Nombre: "Simba",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2020-12-25"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade2")
+  },
+  {
+    Id_Mascota: 10,
+    Especie: "Perro",
+    Raza: "Cocker Spaniel",
+    Nombre: "Coco",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2017-11-03"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade2")
+
+  },
+  {
+    Id_Mascota: 11,
+    Especie: "Gato",
+    Raza: "Siamés",
+    Nombre: "Luna",
+    Sexo: "Hembra",
+    Fecha_Nacimiento: new Date("2021-02-15"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade3")
+  },
+  {
+    Id_Mascota: 12,
+    Especie: "Perro",
+    Raza: "Labrador",
+    Nombre: "Max",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2019-09-03"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade3")
+  },
+  {
+    Id_Mascota: 13,
+    Especie: "Gato",
+    Raza: "Persa",
+    Nombre: "Simba",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2020-05-20"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+  {
+    Id_Mascota: 14,
+    Especie: "Perro",
+    Raza: "Bulldog",
+    Nombre: "Rocky",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2018-12-08"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+  {
+    Id_Mascota: 15,
+    Especie: "Gato",
+    Raza: "Bengalí",
+    Nombre: "Kira",
+    Sexo: "Hembra",
+    Fecha_Nacimiento: new Date("2022-01-01"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+  {
+    Id_Mascota: 16,
+    Especie: "Perro",
+    Raza: "Chihuahua",
+    Nombre: "Taco",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2020-08-12"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+  {
+    Id_Mascota: 17,
+    Especie: "Gato",
+    Raza: "Siames",
+    Nombre: "Mochi",
+    Sexo: "Hembra",
+    Fecha_Nacimiento: new Date("2021-11-25"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+  {
+    Id_Mascota: 18,
+    Especie: "Perro",
+    Raza: "Poodle",
+    Nombre: "Lana",
+    Sexo: "Hembra",
+    Fecha_Nacimiento: new Date("2017-06-17"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+  {
+    Id_Mascota: 19,
+    Especie: "Gato",
+    Raza: "Egipcio",
+    Nombre: "Anubis",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2020-04-02"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+  {
+    Id_Mascota: 20,
+    Especie: "Perro",
+    Raza: "Golden Retriever",
+    Nombre: "Buddy",
+    Sexo: "Macho",
+    Fecha_Nacimiento: new Date("2019-02-14"),
+    Propietario: ObjectId("641b93977e68771ed7f4ade4")
+  },
+])
+*/

@@ -1,0 +1,3 @@
+use("mascotas")
+
+db.turnos.find()

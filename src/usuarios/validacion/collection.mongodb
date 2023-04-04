@@ -1,0 +1,43 @@
+use("mascotas")
+
+db.createCollection('usuarios', {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["Id_usuario", "Nombre", "Apellido", "Email", "Password", "Role"],
+      //additionalProperties: false, // me aseguro que no se inserten parametros que no he definido y debo agregar la propiedad de _id
+      properties: {
+        Id_usuario: {
+          bsonType: "number",
+        },
+        Nombre: {
+          bsonType: "string",
+        },
+        Apellido: {
+          bsonType: "string",
+        },
+        Email: {
+          bsonType: "string",
+          pattern: '^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$',
+        },
+        Password: {
+          bsonType: "string",
+          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{97,}$',
+        },
+        Role: {
+          enum: ["admin", "user", "psicologo"],
+        },
+        /*
+        Dni: {
+          bsonType: "number",
+          //minimum: 1000000,
+          //maximum: 99999999,
+        },
+        Numero_telefono: {
+          bsonType: "string",
+        },*/
+      }
+    }
+  }
+})
+
