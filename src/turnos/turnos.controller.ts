@@ -36,19 +36,21 @@ export class TurnosController {
     private readonly mascotasService: MascotasService,
   ) {}
 
-  /*
-  // endpoints 2 VerTurnosDisponibles:(Falta)
-  @UseGuards(AuthGuard('PsicoUsuario'))
+/*
+  // endpoints 2 VerTurnosDisponibles:
+  //@UseGuards(AuthGuard('PsicoUsuario'))
   @Get('/disponibles')
   consultarTurnosDisponibles(@Body() turno: GetTurnoDTO) {
-    return this.turnosService.VerTurnosDisponibles(turno);
+    return this.turnosService.verTurnosDisponibles(turno);
   }
 
+
   // endpoints 3 Registrar un turnos:())
-  @UseGuards(AuthGuard('PsicoUsuario'))
+  //@UseGuards(AuthGuard('PsicoUsuario'))
   @Post('/crear')
-  registrarTurno2(@Body() idTurno: CreateTurnoDto) {
-    return this.turnosService.crearTurno(idTurno)
+  async registrarTurno2(@Body() createTurnoDto: CreateTurnoDto) {
+    const turno = await this.turnosService.crearTurno(createTurnoDto);
+    return turno;
   }
 
   // endpoints 4 Ver mis turnos:()
@@ -93,5 +95,5 @@ export class TurnosController {
       return { success: false, error: error.message };
     }
   }
-  */
+*/
 }

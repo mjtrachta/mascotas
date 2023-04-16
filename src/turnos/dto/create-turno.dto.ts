@@ -1,5 +1,6 @@
 import { PartialType } from "@nestjs/swagger";
 import { IsNumber, IsPositive, IsString } from "class-validator";
+import { ObjectId } from "mongoose";
 
 export class CreateTurnoDto {
 
@@ -7,9 +8,8 @@ export class CreateTurnoDto {
   @IsNumber()
   readonly id_turno : number;
 
-  @IsPositive()
-  @IsNumber()
-  readonly id_mascota_turno : number;
+
+  readonly id_mascota_turno : ObjectId;
 
   readonly fecha_inicio: Date;
 

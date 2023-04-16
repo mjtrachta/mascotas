@@ -1,14 +1,15 @@
 import { Mascotas } from 'src/mascotas/mascota.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { SchemaTypes, Types, Document, ObjectId } from 'mongoose';
+import { MascotasSchema } from '../usuarios.schema';
 
 @Schema({ collection: 'Turnos' })
 export class Turnos extends Document {
   @Prop()
   id_turno: number;
 
-  @Prop({ type: Number, ref: 'Mascotas' })
-  mascota: number;
+  @Prop({ type: SchemaTypes.ObjectId, ref: "Mascotas" })
+  id_mascota_turno: ObjectId;
 
   @Prop()
   fecha_inicio: Date;

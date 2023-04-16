@@ -1,34 +1,29 @@
 import { Injectable } from '@nestjs/common';
-
-
 import { CreateTurnoDto, GetTurnoDTO } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
-import { Turnos } from './entities/turno.schema';
-import { Mascotas } from 'src/mascotas/mascota.schema';
-import { parseISO, addMinutes, addHours } from 'date-fns';
-import { MascotasService } from '../mascotas/mascotas.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
+import { Turnos } from '../turnos/entities/turno.schema';
+import { Mascotas } from '../mascotas/mascota.schema';
+import { MascotasService } from '../mascotas/mascotas.service';
 
 @Injectable()
 export class TurnosService {
   constructor(
-    @InjectModel(Turnos.name) private turnosModel: Model<Turnos>,
-    @InjectModel(Mascotas.name) private mascotasModel: Model<Mascotas>,
+    @InjectModel(Turnos.name) private turnoModel: Model<Turnos>,
+    @InjectModel(Mascotas.name) private mascotaModel: Model<Mascotas>,
     private mascotasService: MascotasService,
   ) {}
 
-  // endpoints 2 VerTurnosDisponibles:(Falta)
-
-  async VerTurnosDisponibles(turnosDisponibles: GetTurnoDTO): Promise<Date[]> {
-    //primero obtengo el tipo para ver el tiempo de la consulta
-    const obtengoTipo = await await this.mascotasRepository.find({
+    /*
+  async verTurnosDisponibles(turnosDisponibles: GetTurnoDTO): Promise<Date[]> {
+    // Primero obtengo el tipo para ver el tiempo de la consulta
+    const obtengoTipo = await this.mascotaModel.find({
       select: {
         especie: true,
       },
       where: {
-        id_mascota: turnosDisponibles.id_mascota_turno,
+        _id: turnosDisponibles.id_mascota_turno,
       },
     });
     const tipo = obtengoTipo[0].especie;
@@ -38,35 +33,35 @@ export class TurnosService {
     const fechaFin = new Date(turnosDisponibles.fecha_inicio);
     fechaFin.setHours(18, 0, 0, 0); // establecer la hora de fin de la agenda
 
-    //obtengo los turnos programados para esa fecha
-    const turnos = await this.turnosRepository.find({
+    // Obtengo los turnos programados para esa fecha
+    const turnos = await this.turnoModel.find({
       where: {
         fecha_inicio: fechaInicio,
         id_psicologo_turno: turnosDisponibles.id_psicologo_turno,
       },
     });
 
-    const horariosDisponibles = []; //creo array para guardar los turnos disponibles
+    const horariosDisponibles = []; // creo array para guardar los turnos disponibles
     let hora = fechaInicio;
     while (hora <= fechaFin) {
       // verificar si la hora está disponible
       const horaFin = new Date(hora.getTime() + duracion * 60000);
-      const disponible = await this.turnosRepository.count({
+      const disponible = await this.turnoModel.count({
         where: [
           {
-            fecha_inicio: LessThanOrEqual(horaFin),
-            fecha_fin: MoreThanOrEqual(hora),
+            fecha_inicio: { $lte: horaFin },
+            fecha_fin: { $gte: hora },
           },
           {
-            fecha_inicio: LessThan(hora),
-            fecha_fin: MoreThan(horaFin),
+            fecha_inicio: { $lt: hora },
+            fecha_fin: { $gt: horaFin },
           },
         ],
       });
 
       console.log('DISPONIBILIDAD ' + ' ' + disponible);
 
-      if (disponible == 0) {
+      if (disponible === 0) {
         horariosDisponibles.push(new Date(hora));
       }
       // avanzar a la siguiente hora
@@ -75,42 +70,36 @@ export class TurnosService {
     return horariosDisponibles;
   }
 
-  // endpoints 3 Registrar un turnos:(crea el turno falta verificar disponibilidad)
+
+
+
+  ///////////////////////////////////////////////////////////////////////////////////
+  // endpoints 3 Registrar un turnos:(crea el turno falta verificar disponibilidad)//
+  ///////////////////////////////////////////////////////////////////////////////////
+
   async crearTurno(nuevoTurno: CreateTurnoDto) {
+
     //primero obtengo el tipo para ver el tiempo de la consulta
-    console.log(nuevoTurno.id_mascota_turno)
-    const obtengoTipo =  await this.mascotasRepository.find({
-      select: {
-        especie: true,
-      },
-      where: {
-        id_mascota: nuevoTurno.id_mascota_turno
-      },
+    // Obtener el tipo de la mascota
+    const obtengoTipo = await this.mascotaModel.find({
+      especie: true,
+      _id: nuevoTurno.id_mascota_turno,
     });
     const Tipo = obtengoTipo[0].especie;
 
-    //verifico que la mascota no tenga un turno dado
-    console.log(nuevoTurno.id_mascota_turno)
-    const verificoTurno =  await this.turnosRepository.count({
-      where: {
-        id_mascota_turno: nuevoTurno.id_mascota_turno
-      },
-    });
-    const turno = verificoTurno;
-
-    if (Tipo === 'perro' ) {
+    // Verificar si la mascota es un perro y calcular la fecha de fin
+    if (Tipo === 'perro') {
       const Fecha_inicio = new Date(nuevoTurno.fecha_inicio);
       const nuevaFechaFin = new Date(Fecha_inicio.getTime() + 30 * 60000);
       nuevoTurno.fecha_fin = nuevaFechaFin;
+    }
 
-      //Si la mascota no tiene un turno dado verifico si hay lugar entre la fecha de inicio y fin
-      console.log('verificando disponibilidad');
+    //Si la mascota no tiene un turno dado verifico si hay lugar entre la fecha de inicio y fin
+    console.log('verificando disponibilidad');
 
-      const verificacion = await this.turnosRepository.count({
-        where: {
-          fecha_inicio: LessThanOrEqual(nuevoTurno.fecha_fin),
-          fecha_fin: MoreThanOrEqual(nuevoTurno.fecha_inicio),
-        },
+    const verificacion = await this.turnoModel.countDocuments({
+        fecha_inicio: { $lte: nuevoTurno.fecha_fin },
+        fecha_fin: { $gte: nuevoTurno.fecha_inicio },
       });
 
       const verificacionLugar = verificacion;
@@ -171,7 +160,6 @@ export class TurnosService {
     } else if (turno == 1) {
       return 'La mascota ya tiene un turno activo registrado';
     }
-  }
 
   // endpoints 4 Ver mis turnos:
   async getTurnosByUser(Id_usuario: number): Promise<Turnos[]> {
@@ -235,7 +223,11 @@ export class TurnosService {
     turno.estado_turno = 3;
     turno.nota = nota;
     return this.turnosRepository.save(turno);
-  }*/
+  }
+  */
+
+
+
 }
 
 /*async verTurnos(idUsuario: number) {Promise<any>
