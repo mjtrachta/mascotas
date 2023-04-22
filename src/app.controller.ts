@@ -1,23 +1,18 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
-import { get } from 'http';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('app')
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return 'hola mundoo';
+/*
+  @Get('/numbertowords/:numero')
+  async priceDelivery(@Param('numero') numero: number): Promise<any>{
+    return this.appService.callService(numero);
   }
+  */
 
-  @Get('nuevo')
-  newEndpoint() {
-    return 'yo soy nuevo';
-  }
-
-  @Get('/ruta/')
-  hello() {
-    return 'con /sas/';
+  @Get('/numbertowords/:numero')
+  async getNumberToWords(@Param('numero') numero: number): Promise<string> {
+    return this.appService.callService(numero);
   }
 }

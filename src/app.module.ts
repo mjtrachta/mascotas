@@ -10,6 +10,9 @@ import { JwtStrategy } from './auth/jwt.strategy';
 import { MascotasModule } from './mascotas/mascotas.module';
 import { TurnosModule } from './turnos/turnos.module';
 import { DatabaseModule } from './database/database.module';
+import { GatewayModule } from './chat/gateway.module';
+import { Client } from 'soap';
+import * as soap from 'soap';
 
 @Module({
   imports: [
@@ -19,11 +22,21 @@ import { DatabaseModule } from './database/database.module';
     }),
     DatabaseModule,
     UsuariosModule,
+    GatewayModule,
     AuthModule,
     MascotasModule,
     TurnosModule,
   ],
   controllers: [AppController],
-  providers: [AppService, JwtStrategy, JwtAuthGuard],
+  providers: [
+    {
+      provide: 'MY_SOAP_CLIENT',
+      useFactory: async () => {
+        const url = 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso?wsdl';
+        const client = await soap.createClientAsync(url);
+        return client;
+      }
+    }, AppService, JwtStrategy, JwtAuthGuard],
+
 })
 export class AppModule {}
