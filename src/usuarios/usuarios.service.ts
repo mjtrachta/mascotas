@@ -30,6 +30,7 @@ export class UsuariosService {
       Role: "psicologo", // rol 3 es psicologos
     }).select('Id_usuario Nombre');
   }
+  
 
   async crearUsuario(usuario: CrearUsuarioDTO) {
     const nuevoUsuario = new this.usuariosModel(usuario);
