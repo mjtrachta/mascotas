@@ -37,10 +37,52 @@ describe('UsuariosController', () => {
     service = app.get<UsuariosService>(UsuariosService);
   });
 
+
+
   describe('getUsuarios', () => {
-    it('debe devolver una serie de usuarios', async () => {
+    it('debe devolver una serie de usuarios con los mismos campos que los usuarios almacenados en la base de datos', async () => {
+
+      // Simula que hay varios usuarios almacenados en la base de datos.
+      const usuariosBaseDatos = [
+        {
+          _id: '123456',
+          Id_usuario: 1,
+          Nombre: 'Juan',
+          Apellido: 'Pérez',
+          Email: 'juanperez@gmail.com',
+          Password: 'JuanPerez123',
+          Role: 'admin',
+        },
+        {
+          _id: '789012',
+          Id_usuario: 2,
+          Nombre: 'María',
+          Apellido: 'Gómez',
+          Email: 'mariagomez@gmail.com',
+          Password: 'MariaGomez456',
+          Role: 'user',
+        },
+      ];
+
+      // Simula que el servicio devuelve los usuarios almacenados en la base de datos.
+      userServiceMock.getUsuarios.mockResolvedValue(usuariosBaseDatos);
+
+      // Llama a la función getUsuarios() del controlador.
       const result = await controller.getUsuarios();
-      expect(result).toEqual([{}]);
+
+      // Define los campos que deberían tener los usuarios.
+      const expectedFields = {
+        _id: expect.any(String),
+        Id_usuario: expect.any(Number),
+        Nombre: expect.any(String),
+        Apellido: expect.any(String),
+        Email: expect.any(String),
+        Password: expect.any(String),
+        Role: expect.any(String),
+      };
+
+      // Comprueba que los usuarios devueltos por el controlador tienen los mismos campos que los usuarios almacenados en la base de datos.
+      expect(result).toEqual(expect.arrayContaining([expect.objectContaining(expectedFields)]));
     });
   });
 
